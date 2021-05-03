@@ -15,13 +15,17 @@ function Movie() {
             })
             .then(data => {
                 setMovieDetails(data)
+                console.log("Here's data: ", data)
             })
-    }, [movieDetails, setMovieDetails])
+    }, [id])
 
     return (
         <div>
             <h1>Title: {movieDetails.title}</h1>
             <h1>Overview: {movieDetails.overview}</h1>
+            <h1>Release Date: {movieDetails.release_date}</h1>
+            <h1>Rating: {movieDetails.vote_average}</h1>
+            <h1>Runtime: {movieDetails.runtime}</h1>
         </div>
     );
 }
