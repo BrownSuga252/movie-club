@@ -1,23 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams, useRouteMatch } from "react-router-dom";
 
-
-function Movie({match, movies}) {
+function Movie() {
+    const { url, path } = useRouteMatch();
+    const { name } = useParams();
+    const id = url.substring(1);
     const [movieDetails, setMovieDetails] = useState({})
-    let url = `https://api.themoviedb.org/3/search/movie?language=en-US&api_key=${process.env.REACT_APP_MOVIE_CLUB_API_KEY}&language=en-US&query=${match.params.id}`
+    let fetchData = `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.REACT_APP_MOVIE_CLUB_API_KEY}&language=en-US`
 
     useEffect(() => {
-        fetch(url)
-        .then((res) => {
-          console.log(res);
-          return res.json();
-        })
-        .then(data => {setMovieDetails(data.results)
-            console.log(data.results)})
-          }, [match.params.id, movies])
-          
+        fetch(fetchData)
+            .then((res) => {
+                return res.json();
+            })
+            .then(data => {
+                setMovieDetails(data)
+            })
+    }, [movieDetails, setMovieDetails])
+
     return (
         <div>
-            <h1>Movie Details</h1>
+            <h1>Title: {movieDetails.title}</h1>
+            <h1>Overview: {movieDetails.overview}</h1>
         </div>
     );
 }
